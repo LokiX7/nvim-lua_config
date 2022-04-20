@@ -1,19 +1,33 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function()
+
 use 'wbthomason/packer.nvim'
 use 'mattn/emmet-vim' 
 use 'jiangmiao/auto-pairs' 
-use 'dense-analysis/ale' 
+use 'dense-analysis/ale'
 use 'sainnhe/sonokai' 
-use 'vim-airline/vim-airline' 
-use 'preservim/nerdtree' 
+use 'tpope/vim-fugitive' 
+
 use {
-  'nvim-treesitter/nvim-treesitter',
-  run = ':TSUpdate'
-}
+    'nvim-lualine/lualine.nvim',
+    opt = true,
+    requires = { { 'kyazdani42/nvim-web-devicons', opt = true  }, { 'kdheepak/tabline.nvim', opt = true  } }
+}    
+
 use {
-  'nvim-telescope/telescope.nvim',
-  requires = { {'nvim-lua/plenary.nvim'} }
+    'preservim/nerdtree',
+    'ryanoasis/vim-devicons'
 }
+
+use {
+    'nvim-treesitter/nvim-treesitter',
+    run = ':TSUpdate'
+}
+
+use {
+    'nvim-telescope/telescope.nvim',
+    requires = { {'nvim-lua/plenary.nvim', opt = true} }
+}
+
 end)
