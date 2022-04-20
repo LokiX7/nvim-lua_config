@@ -11,8 +11,8 @@ use 'tpope/vim-fugitive'
 
 use {
     'nvim-lualine/lualine.nvim',
+    'kyazdani42/nvim-web-devicons',
     opt = true,
-    requires = { { 'kyazdani42/nvim-web-devicons', opt = true  }, { 'kdheepak/tabline.nvim', opt = true  } }
 }    
 
 use {
