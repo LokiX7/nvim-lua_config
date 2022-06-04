@@ -6,9 +6,14 @@ use 'wbthomason/packer.nvim'
 use 'mattn/emmet-vim' 
 use 'jiangmiao/auto-pairs' 
 use 'dense-analysis/ale'
-use 'sainnhe/sonokai' 
 use 'tpope/vim-fugitive' 
+use 'tpope/vim-surround'
 
+-- schemes
+use 'sainnhe/sonokai' 
+use 'sainnhe/gruvbox-material'
+
+-- need nerdfonts
 use {
     'nvim-lualine/lualine.nvim',
     'kyazdani42/nvim-web-devicons',
@@ -27,7 +32,7 @@ use {
 
 use {
     'nvim-telescope/telescope.nvim',
-    requires = { {'nvim-lua/plenary.nvim', opt = true} }
+    requires = { {'nvim-lua/plenary.nvim'} }
 }
 
 end)

@@ -8,6 +8,8 @@ local wo = vim.wo
 
 -- Главные --------------------------------------------------------------
 
+exec ('language en_US.UTF-8', true)
+
 opt.expandtab = true                -- Настройка табов
 opt.smarttab = true                 -- При нажатии таба в начале строки добавляет количество пробелов равное shiftwidth.
 opt.tabstop=4                       -- Количество пробелов в табе                                      
@@ -15,7 +17,6 @@ opt.softtabstop=4                   -- Количество пробелов в 
 opt.shiftwidth=4                                                               
 opt.scrolloff=7                     -- Скролл на n строк
 opt.colorcolumn = '80'              -- Разделитель на 80 символов
-opt.spelllang= { 'en_us', 'ru' }    -- Словари рус eng
 opt.number = true                   -- Включаем нумерацию строк
 opt.relativenumber = true           -- Вкл. относительную нумерацию строк
 opt.mouse ='a'                      -- Включить мышь
@@ -30,6 +31,8 @@ opt.termencoding ='utf-8'
 opt.hlsearch = true                 -- Подсвечивать результаты поиска
 opt.showcmd = true                  -- Показывать строку набора команд
 opt.termguicolors = true 
+opt.foldlevelstart = 20             -- Открывать складки при открытии файла
+opt.foldmethod = 'indent'
 
 -- С этой строкой отлично форматирует html файл, который содержит jinja2
 cmd [[ autocmd BufNewFile,BufRead *.html set filetype=htmldjango ]]
@@ -39,6 +42,24 @@ cmd [[ autocmd BufWritePre *.py normal m`:%s/\s\+$//e `` ]]
 cmd [[ autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,match ]]
 -- don't auto commenting new lines
 cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
+
+
+-- Schemes ---------------------------------------------------------------
+
+
+----------------------------- sonokai
+
+g.sonokai_style = 'andromeda'
+g.sonokai_transparent_background = 1
+
+cmd 'colorscheme sonokai'           -- Должна быть последней!
+
+
+----------------------------- gruvbox-material
+
+--g.gruvbox_material_transparent_background = 1
+
+--cmd 'colorscheme gruvbox-material'
 
 
 -- LuaLine --------------------------------------------------------------
@@ -74,15 +95,6 @@ require('lualine').setup {
 }}
 
 
--- Sonokai --------------------------------------------------------------
-
-g.sonokai_style = 'andromeda'
-g.sonokai_enable_italic = 1                                                 
-g.sonokai_disable_italic_comment = 1                                        
-g.sonokai_transparent_background = 1
-cmd 'colorscheme sonokai'           -- Должна быть последней!
-
-
 -- NerdTree -------------------------------------------------------------
 
 cmd [[
@@ -99,7 +111,6 @@ g.ale_sign_warning = '⚠'
 
 -- TreeSitter -----------------------------------------------------------
 
-wo.foldmethod = 'expr'
 wo.foldexpr = 'nvim_treesitter#foldexpr()'
 wo.foldcolumn = '1'
 

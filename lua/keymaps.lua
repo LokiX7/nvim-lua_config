@@ -2,6 +2,7 @@ local map = vim.api.nvim_set_keymap
 local opts = {noremap = true, silent=true}
 
 -- Буфер обмена
+-- sudo apt install xclip если не работает 
 map("i", "<c-v>", '"+pa', opts)
 map("v", "<c-c>", '"+y', opts)
 map("v", "<c-d>", '"+d', opts)
