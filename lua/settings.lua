@@ -56,7 +56,7 @@ cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 ----------------------------- gruvbox-material
 
 g.gruvbox_material_transparent_background = 1
-g.gruvbox_material_foreground = 'original'
+g.gruvbox_material_foreground = 'mix'
 g.gruvbox_material_enable_bold = 0
 g.gruvbox_material_ui_contrast = 'high'
 g.gruvbox_material_statusline_style = 'original'
