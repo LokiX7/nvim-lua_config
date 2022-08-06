@@ -9,7 +9,6 @@ local wo = vim.wo
 -- Главные --------------------------------------------------------------
 
 exec ('language en_US.UTF-8', true)
-
 opt.expandtab = true                -- Настройка табов
 opt.smarttab = true                 -- При нажатии таба в начале строки добавляет количество пробелов равное shiftwidth.
 opt.tabstop=4                       -- Количество пробелов в табе                                      
@@ -34,6 +33,7 @@ opt.termguicolors = true
 opt.foldlevelstart = 20             -- Открывать складки при открытии файла
 opt.foldmethod = 'indent'
 
+
 -- С этой строкой отлично форматирует html файл, который содержит jinja2
 cmd [[ autocmd BufNewFile,BufRead *.html set filetype=htmldjango ]]
 -- Перед сохранением вырезаем пробелы на концах (только в .py файлах)
@@ -44,25 +44,26 @@ cmd [[ autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,
 cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 
 
--- Schemes ---------------------------------------------------------------
-
+-- Schemes ----------------------------------------------------------------
 
 ----------------------------- sonokai
 
-g.sonokai_style = 'andromeda'
-g.sonokai_transparent_background = 1
-
-cmd 'colorscheme sonokai'           -- Должна быть последней!
+--g.sonokai_style = 'andromeda'
+--g.sonokai_transparent_background = 1
+--cmd 'colorscheme sonokai'           -- Должна быть последней!
 
 
 ----------------------------- gruvbox-material
 
---g.gruvbox_material_transparent_background = 1
+g.gruvbox_material_transparent_background = 1
+g.gruvbox_material_foreground = 'original'
+g.gruvbox_material_enable_bold = 0
+g.gruvbox_material_ui_contrast = 'high'
+g.gruvbox_material_statusline_style = 'original'
+cmd 'colorscheme gruvbox-material'
 
---cmd 'colorscheme gruvbox-material'
 
-
--- LuaLine --------------------------------------------------------------
+-- LuaLine ---------------------------------------------------------------
 
 require('lualine').setup {
     {options = {
@@ -95,7 +96,11 @@ require('lualine').setup {
 }}
 
 
--- NerdTree -------------------------------------------------------------
+-- luatab ----------------------------------------------------------------
+require('luatab').setup{
+}
+
+-- NerdTree --------------------------------------------------------------
 
 cmd [[
 autocmd StdinReadPre * let s:std_in=1 
@@ -103,13 +108,13 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 ]]     
 
 
--- ALE ------------------------------------------------------------------
+-- ALE -------------------------------------------------------------------
 
 g.ale_sign_error = '✕'
 g.ale_sign_warning = '⚠'
 
 
--- TreeSitter -----------------------------------------------------------
+-- TreeSitter ------------------------------------------------------------
 
 wo.foldexpr = 'nvim_treesitter#foldexpr()'
 wo.foldcolumn = '1'

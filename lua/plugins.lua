@@ -8,6 +8,7 @@ use 'jiangmiao/auto-pairs'
 use 'dense-analysis/ale'
 use 'tpope/vim-fugitive' 
 use 'tpope/vim-surround'
+use 'alvarosevilla95/luatab.nvim'
 
 -- schemes
 use 'sainnhe/sonokai' 
