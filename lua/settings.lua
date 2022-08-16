@@ -17,10 +17,7 @@ opt.shiftwidth=4
 opt.scrolloff=7                     -- Скролл на n строк
 opt.colorcolumn = '80'              -- Разделитель на 80 символов
 opt.number = true                   -- Включаем нумерацию строк
-<<<<<<< HEAD
 --opt.relativenumber = true           -- Вкл. относительную нумерацию строк
-=======
->>>>>>> new_lsp
 opt.mouse ='a'                      -- Включить мышь
 opt.showtabline=1                   -- Вырубаем черточки на табах
 opt.wrap = true                     -- Переносим на другую строчку, разрываем строки
