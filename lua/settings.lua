@@ -234,14 +234,6 @@ require('lspconfig')['tsserver'].setup{
 }
 
 
-
-
--- ALE ------------------------------------------------------------------------
-
---g.ale_sign_error = '✕'
---g.ale_sign_warning = '⚠'
-
-
 -- TreeSitter -----------------------------------------------------------------
 
 wo.foldexpr = 'nvim_treesitter#foldexpr()'
