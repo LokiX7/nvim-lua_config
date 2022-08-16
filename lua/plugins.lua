@@ -5,10 +5,19 @@ return require('packer').startup(function()
 use 'wbthomason/packer.nvim'
 use 'mattn/emmet-vim' 
 use 'jiangmiao/auto-pairs' 
-use 'dense-analysis/ale'
 use 'tpope/vim-fugitive' 
 use 'tpope/vim-surround'
 use 'alvarosevilla95/luatab.nvim'
+
+use 'williamboman/mason.nvim' -- manage external editor tooling :Mason
+
+use 'neovim/nvim-lspconfig' -- LSP
+use 'hrsh7th/nvim-cmp'      -- auto complete
+use 'hrsh7th/cmp-nvim-lsp'
+use 'L3MON4D3/LuaSnip'
+use 'saadparwaiz1/cmp_luasnip'
+
+-- use 'dense-analysis/ale'
 
 -- schemes
 use 'sainnhe/sonokai' 

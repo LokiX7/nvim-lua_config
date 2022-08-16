@@ -6,7 +6,7 @@ local opt = vim.opt                 -- global/buffer/windows-scoped options
 local wo = vim.wo
 
 
--- Главные --------------------------------------------------------------
+-- Главные --------------------------------------------------------------------
 
 exec ('language en_US.UTF-8', true)
 opt.expandtab = true                -- Настройка табов
@@ -17,7 +17,6 @@ opt.shiftwidth=4
 opt.scrolloff=7                     -- Скролл на n строк
 opt.colorcolumn = '80'              -- Разделитель на 80 символов
 opt.number = true                   -- Включаем нумерацию строк
-opt.relativenumber = true           -- Вкл. относительную нумерацию строк
 opt.mouse ='a'                      -- Включить мышь
 opt.showtabline=1                   -- Вырубаем черточки на табах
 opt.wrap = true                     -- Переносим на другую строчку, разрываем строки
@@ -44,7 +43,8 @@ cmd [[ autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,
 cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 
 
--- Schemes ----------------------------------------------------------------
+-- Schemes --------------------------------------------------------------------
+
 
 ----------------------------- sonokai
 
@@ -63,7 +63,7 @@ g.gruvbox_material_statusline_style = 'original'
 cmd 'colorscheme gruvbox-material'
 
 
--- LuaLine ---------------------------------------------------------------
+-- LuaLine --------------------------------------------------------------------
 
 require('lualine').setup {
     {options = {
@@ -96,11 +96,13 @@ require('lualine').setup {
 }}
 
 
--- luatab ----------------------------------------------------------------
+-- luatab ---------------------------------------------------------------------
+
 require('luatab').setup{
 }
 
--- NerdTree --------------------------------------------------------------
+
+-- NerdTree -------------------------------------------------------------------
 
 cmd [[
 autocmd StdinReadPre * let s:std_in=1 
@@ -108,13 +110,139 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 ]]     
 
 
--- ALE -------------------------------------------------------------------
+-- Mason manager --------------------------------------------------------------
 
-g.ale_sign_error = '✕'
-g.ale_sign_warning = '⚠'
+require("mason").setup({
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }   
+})
 
 
--- TreeSitter ------------------------------------------------------------
+-- CMP ------------------------------------------------------------------------
+
+local cmp = require('cmp')
+
+cmp.setup {
+  completion = {
+    autocomplete = false
+  },
+  
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
+  },
+  
+  mapping = {
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-n>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end,
+  },
+
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}
+
+
+-- nvim-lspconfig -------------------------------------------------------------
+
+-- Mappings.
+-- See `:help vim.diagnostic.*` for documentation on any of the below functions
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<space>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  -- Enable completion triggered by <c-x><c-o>
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<space>wl', function()
+    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  end, bufopts)
+  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+end
+
+local lsp_flags = {
+  -- This is the default in Nvim 0.7+
+  debounce_text_changes = 150,
+}
+
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+
+
+  -- Init lsp 
+
+require('lspconfig')['pyright'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+
+require('lspconfig')['tsserver'].setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+
+
+
+
+-- ALE ------------------------------------------------------------------------
+
+--g.ale_sign_error = '✕'
+--g.ale_sign_warning = '⚠'
+
+
+-- TreeSitter -----------------------------------------------------------------
 
 wo.foldexpr = 'nvim_treesitter#foldexpr()'
 wo.foldcolumn = '1'
