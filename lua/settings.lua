@@ -43,6 +43,26 @@ cmd [[ autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,
 -- don't auto commenting new lines
 cmd [[au BufEnter * set fo-=c fo-=r fo-=o]]
 
+-- disable virtual_text (inline) diagnostics and use floating window
+-- format the message such that it shows source, message and
+-- the error code. Show the message with <space>e
+vim.diagnostic.config({
+    virtual_text = false,
+    signs = true,
+    float = {
+        border = "single",
+        format = function(diagnostic)
+            return string.format(
+            "%s (%s) [%s]",
+            diagnostic.message,
+            diagnostic.source,
+            diagnostic.code or diagnostic.user_data.lsp.code
+            )
+        end,
+    },
+})
+
+
 
 -- Schemes --------------------------------------------------------------------
 
@@ -180,6 +200,7 @@ cmp.setup {
 
     sources = {
         { name = 'nvim_lsp' },
+        { name = 'nvim_lsp_signature_help' },
         { name = 'luasnip' },
     },
 
