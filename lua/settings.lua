@@ -154,6 +154,16 @@ require("mason").setup({
     }   
 })
 
+require("mason-lspconfig").setup()
+
+require("mason-lspconfig").setup_handlers {
+        -- The first entry (without a key) will be the default handler
+        -- and will be called for each installed server that doesn't have
+        -- a dedicated handler.
+        function (server_name) -- default handler (optional)
+            require("lspconfig")[server_name].setup {}
+        end
+}
 
 -- CMP ------------------------------------------------------------------------
 
@@ -256,20 +266,6 @@ for type, icon in pairs(signs) do
     local hl = "DiagnosticSign" .. type
     vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
-
-
--- Init lsp 
-
-require('lspconfig')['pyright'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-
-require('lspconfig')['tsserver'].setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-}
-
 
 -- TreeSitter -----------------------------------------------------------------
 
