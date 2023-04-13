@@ -47,4 +47,11 @@ use {
     requires = { {'nvim-lua/plenary.nvim'} }
 }
 
+use {
+  'rmagatti/goto-preview',
+  config = function()
+    require('goto-preview').setup {}
+  end
+}
+
 end)

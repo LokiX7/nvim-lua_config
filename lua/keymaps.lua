@@ -26,3 +26,10 @@ map('n', 'ff', '<cmd>Telescope find_files<cr>', opts)
 map('n', 'fg', '<cmd>Telescope live_grep<cr>', opts)
 map('n', 'fb', '<cmd>Telescope buffers<cr>', opts)
 map('n', 'fh', '<cmd>Telescope help_tags<cr>', opts)
+
+-- goto-preview
+map('n', 'gpd', '<cmd>lua require("goto-preview").goto_preview_definition()<CR>', {noremap=true})
+map('n', 'gpt', '<cmd>lua require("goto-preview").goto_preview_type_definition()<CR>', {noremap=true})
+map('n', 'gpi', '<cmd>lua require("goto-preview").goto_preview_implementation()<CR>', {noremap=true})
+map('n', 'gP', '<cmd>lua require("goto-preview").close_all_win()<CR>', {noremap=true})
+map('n', 'gpr', '<cmd>lua require("goto-preview").goto_preview_references()<CR>', {noremap=true}) 
